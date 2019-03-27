@@ -1,0 +1,25 @@
+{
+    "restartable": "rs",
+    "ignore": [
+      ".git",
+      ".gitignore",
+      "README.md",
+      "nodemon.json",
+      "node_modules/*",
+      "public/*"
+    ],
+    "verbose": true,
+    "execMap": {
+      "js": "node"
+    },
+    "watch": [
+      "./*server.js",
+      "test",
+      "src",
+      "./build/webpack.*"
+    ],
+    "env": {
+      "NODE_ENV": "development"
+    },
+    "ext": "js json"
+  }
