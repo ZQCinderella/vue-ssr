@@ -21,7 +21,7 @@ module.exports = function setupDevServer (app, templatePath, cb) {
   const readyPromise = new Promise(r => { ready = r }) // ready = resolve. 
   const update = () => {
     if (bundle && clientManifest) {
-      // ready()  // 调用返回的promise的resolve, 只有当更新的时候，才resolve, 这样返回的promise才能调用then, 然后在then里面 renderToString
+      ready()  // 调用返回的promise的resolve, 只有当更新的时候，才resolve, 这样返回的promise才能调用then, 然后在then里面 renderToString
       cb(bundle, {
         template,
         clientManifest

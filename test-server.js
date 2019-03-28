@@ -37,10 +37,10 @@ server.use(microcache.cacheSeconds(1, req => useMicroCache && req.originalUrl))
 
 function createRenderer (bundle, options) {
     return createBundleRenderer(bundle, Object.assign(options, {
-        // cache: LRU({
-        //     max: 1000,
-        //     maxAge: 1000 * 60 * 15
-        // }),
+        cache: LRU({
+            max: 1000,
+            maxAge: 1000 * 60 * 15
+        }),
          // this is only needed when vue-server-renderer is npm-linked
          basedir: resolve('./dist'),
          // recommended for performance
@@ -91,7 +91,7 @@ function render(req, res) {
     }
 
     const context = {
-        title: '服务队渲染', // default title
+        title: '服务端渲染', // default title
         url: req.url
     }
     // 这里无需传入一个应用程序，因为在执行 bundle 时已经自动创建过。
