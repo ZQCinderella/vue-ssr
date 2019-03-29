@@ -21,15 +21,18 @@ const config = merge(base, {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
       'process.env.VUE_ENV': '"client"'
     }),
-    // extract vendor chunks for better caching
+    // 将依赖模块提取到 vendor chunk 以获得更好的缓存
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: function (module) {
-        // a module is extracted into the vendor chunk if...
+        
+        // 在使用 CSS 提取 + 使用 CommonsChunkPlugin 插件提取 vendor 时，
+        // 如果提取的 CSS 位于提取的 vendor chunk 之中，extract-text-webpack-plugin 会遇到问题。
+        // 为了解决这个问题，请避免在 vendor chunk 中包含 CSS 文件
         return (
-          // it's inside node_modules
+          // 如果它在 node_modules 中， 即为公共模块 进行提取
           /node_modules/.test(module.context) &&
-          // and not a CSS file (due to extract-text-webpack-plugin limitation)
+          // 如果 request 是一个 CSS 文件，则无需外置化提取
           !/\.css$/.test(module.request)
         )
       }

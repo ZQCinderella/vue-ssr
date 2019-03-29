@@ -57,20 +57,6 @@ let readyPromise = require('./build/setup-dev-server')(
         renderer = createRenderer(bundle, options)
     }
 )
-server.get('/v1/get_entry_by_rank', (req, res) => {
-    console.log(req.url);
-    axios({
-        method:'get',
-        url: websiteConfig.host + req.url,
-        responseType:'stream'
-    }).then(response => {
-        // console.log(response);
-        response.data.pipe(res);
-    }).catch(err => {
-        console.error(err);
-        res.status(500).send('500 | Internal Server Error')
-    });
-});
 function render(req, res) {
     const s = Date.now()
 
@@ -97,6 +83,7 @@ function render(req, res) {
     // 这里无需传入一个应用程序，因为在执行 bundle 时已经自动创建过。
     // 现在我们的服务器与应用程序已经解耦！
     // 在调用 renderToString 时，它将自动执行「由 bundle 创建的应用程序实例」所导出的函数（传入上下文作为参数），然后渲染它。
+    // context.state = store.state 在enter-server.js中会有修改context的操作
     renderer.renderToString(context, (err, html) => {
         if (err) {
             return handleError(err)
@@ -107,6 +94,22 @@ function render(req, res) {
         }
     })
 }
+
+server.get('/v1/get_entry_by_rank', (req, res) => {
+    console.log(req.url);
+    axios({
+        method:'get',
+        url: websiteConfig.host + req.url,
+        responseType:'stream'
+    }).then(response => {
+        // console.log(response);
+        response.data.pipe(res);
+    }).catch(err => {
+        console.error(err);
+        res.status(500).send('500 | Internal Server Error')
+    });
+});
+
 server.get('*', (req, res) => {
     // 如果使用 const createApp = require('./test/entry-server')
     // createApp(context).then(app => renderer.renderToString(app ,......))  则无法做到热更新，所以使用createBundleRenderer， 通过json文件监听到每个bundle的更新

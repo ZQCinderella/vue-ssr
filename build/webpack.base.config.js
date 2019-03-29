@@ -43,6 +43,7 @@ module.exports = {
         }
       },
       {
+        // 如果要在js中导入css， 如import 'foo.css'， 则需要配置cssloader去提取css
         test: /\.css$/,
         use: isProd
           ? ExtractTextPlugin.extract({
