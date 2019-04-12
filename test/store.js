@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import { fetchIdsByType } from '../src/api'
-console.log(fetchIdsByType)
 
 Vue.use(Vuex)
 
@@ -24,7 +22,6 @@ const actions = {
         return new Promise((resolve, reject) => {
             axios.get('http://localhost:8082' + website.path + '&category=' + menuMap[type].id).then(res => {
                 const val = res.data && res.data.d;
-                console.log('res:', res.data)
                 if (val) val.__lastUpdated = Date.now()
                 resolve(val);
             }, reject).catch(reject)

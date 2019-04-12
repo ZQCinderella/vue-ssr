@@ -42,6 +42,7 @@ const config = merge(base, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'manifest'
     }),
+    // 生成 `vue-ssr-client-mainfest.json`
     new VueSSRClientPlugin()
   ]
 })

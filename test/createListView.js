@@ -1,9 +1,12 @@
 import ItemView from './view/ItemList.vue'
+import titleMixin from './head-mixin'
 
 export default function createListView (type) {
     return {
         name: `${type}-view`,
+        mixins: [titleMixin],
         props: [type],
+        title:'titleMixin',
         serverCacheKey: props => {
             console.log('props----', props)
         },

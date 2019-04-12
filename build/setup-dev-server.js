@@ -20,6 +20,10 @@ module.exports = function setupDevServer (app, templatePath, cb) {
   let ready
   const readyPromise = new Promise(r => { ready = r }) // ready = resolve. 
   const update = () => {
+    // mainfest对象包含了webpack的整个构建过程，可以让bundle renderer自动推到在html中注入的内容
+    // 1、渲染当前页面所需的最优客户端 JavaScript 和 CSS 资源（支持自动推导异步代码分割所需的文件）；
+    // 2、为要渲染页面提供最佳的 <link rel="preload/prefetch"> 资源提示 (resource hints)。
+
     if (bundle && clientManifest) {
       ready()  // 调用返回的promise的resolve, 只有当更新的时候，才resolve, 这样返回的promise才能调用then, 状态有padding-->resolve 然后在then里面 renderToString
       cb(bundle, {

@@ -26,7 +26,6 @@ const routes = Category.map(item => {
         component: createListView(item.title)
     }
 })
-console.log(routes)
 // 访问根目录时重定向
 routes.push({
     path: '/', redirect: routes[0].path

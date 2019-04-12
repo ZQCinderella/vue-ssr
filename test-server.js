@@ -55,6 +55,7 @@ let readyPromise = require('./build/setup-dev-server')(
     (bundle, options) => {
         console.log('bundle callback..');
         renderer = createRenderer(bundle, options)
+        console.log(renderer)
     }
 )
 function render(req, res) {

@@ -2,7 +2,8 @@ import { createApp } from './app.js'
 import 'es6-promise/auto'
 import Vue from 'vue'
 
-// a global mixin that calls `asyncData` when a route component's params change
+// 当路由组件重用（同一路由，但是 params 或 query 已更改，例如，从 user/1 到 user/2）时，也应该调用 asyncData 函数。
+// 我们也可以通过纯客户端 (client-only) 的全局 mixin 来处理这个问题：
 Vue.mixin({
     beforeRouteUpdate (to, from, next) {
     const { asyncData } = this.$options
@@ -28,12 +29,13 @@ if (window.__INITIAL_STATE__) {
 // 在路由导航前解析数据。使用此策略，应用程序会等待视图所需数据全部解析之后，再传入数据并处理当前视图
 router.onReady(() => {
 
-    console.log('router ready ------')
+    console.log('entry-client-outer ready ------', Date.now())
    // 添加路由钩子函数，用于处理 asyncData.
    // 在初始路由 resolve 后执行，
    // 以便我们不会二次预取(double-fetch)已有的数据。
    // 使用 `router.beforeResolve()`，以便确保所有异步组件都 resolve。
    router.beforeResolve((to, from, next) => {
+       console.log('entry-client-router-resolve', Date.now())
        const matched = router.getMatchedComponents(to)
        const prevMatched = router.getMatchedComponents(from)
        
